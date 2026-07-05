@@ -4,12 +4,14 @@ A compact 12V to 5V, 3A step-down switching regulator, taken from datasheet spec
 
 Simulated and verified in LTspice, then captured and laid out in KiCad.
 
+**PCB Layout**
+![PCB Layout](images/pcb_layout.png)
+
+**3D Render**
+![3D Render](images/pcb_3d_top.png)
 
 **Schematic**
 ![Schematic](images/kicad_schematic.png)
-
-**PCB Layout**
-![PCB Layout](images/pcb_layout.png)
 
 ## Overview
 
@@ -58,10 +60,12 @@ The converter was fully simulated in LTspice before layout. This included verify
 **Switch node (PH) switching**
 ![PH switching](images/ph_switching.png)
 
-**Output voltage ramp up**
-![VOUT ramp up](images/vout_rampup.png)
+**Output voltage, soft start to settled regulation**
+![VOUT settled at 4.9V](images/vout.png)
 
-The verification process surfaced and resolved several real issues in the model setup: two undefined Schottky diode models, and a soft start timing problem diagnosed by probing the SS node directly. Connectivity was confirmed by tracing the generated netlist pin by pin against the model subcircuit definition. The full debugging log is in `docs/NOTES.md`.
+The output completes a two stage soft start ramp and settles at 4.90V, within about 1 percent of the 4.96V calculated setpoint.
+
+The verification process surfaced and resolved several real issues in the model setup: two undefined Schottky diode models, and a soft start timing problem diagnosed by probing the SS node directly. Connectivity was confirmed by tracing the generated netlist pin by pin against the model subcircuit definition. The full debugging log is in `NOTES.md`.
 
 ## Connectors
 
@@ -107,7 +111,7 @@ The verification process surfaced and resolved several real issues in the model 
 | sim/TPS54331_5V_3A_Buck.asc | LTspice schematic |
 | sim/TPS54331_TRANS.asy | LTspice symbol for the TPS54331 |
 | sim/TPS54331_TRANS.LIB | TI transient model |
-| docs/NOTES.md | Design derivation and debugging log |
+| NOTES.md | Design derivation and debugging log |
 
 ## Running the Simulation
 
@@ -130,7 +134,9 @@ The schematic defines models for both Schottky diodes (`MBRS340` for the externa
 - Schematic complete
 - Layout complete
 - 3D render generated
-- DRC complete(0 violations, 0 unconnected)
+- DRC pending
+- Fabricated (planned)
+- Tested (planned)
 
 ## What I Learned
 
