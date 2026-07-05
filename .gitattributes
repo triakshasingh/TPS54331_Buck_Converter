@@ -1,0 +1,7 @@
+# LTspice source files — treat as plain text and keep them out of
+# GitHub's language statistics (prevents .asc being misdetected as
+# "AGS Script" by Linguist).
+*.asc  text linguist-detectable=false
+*.asy  text linguist-detectable=false
+*.LIB  text linguist-detectable=false
+*.lib  text linguist-detectable=false
