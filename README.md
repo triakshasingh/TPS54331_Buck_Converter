@@ -131,9 +131,7 @@ The schematic defines models for both Schottky diodes (`MBRS340` for the externa
 - Schematic complete
 - Layout complete
 - 3D render generated
-- DRC pending
-- Fabricated (planned)
-- Tested (planned)
+- DRC complete
 
 ## What I Learned
 
