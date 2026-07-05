@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# LTspice generated / simulation output
+*.raw
+*.log
+*.op.raw
+*.net
+*.fft
+
+# KiCad backups & autosave (for when the layout is added)
+*-backups/
+*.kicad_pcb-bak
+*.kicad_sch-bak
+_autosave-*
+fp-info-cache
