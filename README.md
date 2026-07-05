@@ -4,14 +4,12 @@ A compact 12V to 5V, 3A step-down switching regulator, taken from datasheet spec
 
 Simulated and verified in LTspice, then captured and laid out in KiCad.
 
-**PCB Layout**
-![PCB Layout](docs/images/pcb/pcb_layout.png)
-
-**3D Render**
-![3D Render](docs/images/pcb/pcb_3d_top.png)
 
 **Schematic**
 ![Schematic](docs/images/schematic/kicad_schematic.png)
+
+**PCB Layout**
+![PCB Layout](docs/images/pcb/pcb_layout.png)
 
 ## Overview
 
