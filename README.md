@@ -6,10 +6,10 @@ Simulated and verified in LTspice, then captured and laid out in KiCad.
 
 
 **Schematic**
-![Schematic](docs/images/schematic/kicad_schematic.png)
+![Schematic](images/kicad_schematic.png)
 
 **PCB Layout**
-![PCB Layout](docs/images/pcb/pcb_layout.png)
+![PCB Layout](images/pcb_layout.png)
 
 ## Overview
 
@@ -53,13 +53,13 @@ R1 = 10.2 kOhm, R2 = 1.96 kOhm.
 The converter was fully simulated in LTspice before layout. This included verifying the DC operating point, confirming the switch node toggles cleanly, and observing the output ramp up under soft start control toward the 5V setpoint.
 
 **LTspice schematic**
-![LTspice schematic](docs/images/schematic/ltspice_schematic.png)
+![LTspice schematic](images/ltspice_schematic.png)
 
 **Switch node (PH) switching**
-![PH switching](docs/images/sim/ph_switching.png)
+![PH switching](images/ph_switching.png)
 
 **Output voltage ramp up**
-![VOUT ramp up](docs/images/sim/vout_rampup.png)
+![VOUT ramp up](images/vout_rampup.png)
 
 The verification process surfaced and resolved several real issues in the model setup: two undefined Schottky diode models, and a soft start timing problem diagnosed by probing the SS node directly. Connectivity was confirmed by tracing the generated netlist pin by pin against the model subcircuit definition. The full debugging log is in `docs/NOTES.md`.
 
