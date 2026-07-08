@@ -14,3 +14,10 @@
 *.kicad_sch-bak
 _autosave-*
 fp-info-cache
+
+# KiCad lock files
+*.lck
+~*.kicad_*.lck
+
+# VSCode Local History extension (embedded git repo — not project content)
+.history/
