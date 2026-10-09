@@ -7,8 +7,15 @@ Simulated and verified in LTspice, then captured and laid out in KiCad.
 **Schematic**
 ![Schematic](images/schematic.png)
 
-**PCB Layout**
-![PCB Layout](images/pcb_layout.png)
+**3D Render**
+![3D Render](images/pcb_layout.png)
+
+**Assembled Board**
+![Assembled board](images/board_photo.png)
+
+## Design Highlight
+
+**Loop-break point in the feedback path.** R4 is a 0 Ohm link at the top of the feedback divider, with test point TP4 on the divider side of it. Lifting R4 breaks the feedback loop at a single point, so a signal can be injected at TP4 for a loop gain (Bode) measurement without modifying the board. Swapping in a small resistor turns the same footprint into an injection resistor. The cost is one resistor footprint and no extra copper.
 
 ## Overview
 
@@ -25,12 +32,12 @@ The board layout follows switching regulator best practice: a tight switch node 
 | Controller IC | TI TPS54331D (SOIC-8) |
 | Input Voltage | 3.5V to 28V (12V nominal) |
 | Output Voltage | 5V (4.96V nominal) |
-| Output Current | up to 3A |
+| Output Current | Rated 3A (bench-tested 0 to 2A) |
 | Switching Frequency | 570 kHz (internal) |
 | Topology | Non-synchronous buck |
 | Catch Diode | MB340A (3A, 40V Schottky) |
 | Inductor | 6.8 uH |
-| Output Capacitance | C8, C9, C10, 47 uF each |
+| Output Capacitance | C8, C9, 47 uF each |
 | Feedback Reference | 0.8V internal |
 | Simulation Tool | LTspice |
 | PCB Tool | KiCad EDA 10.0.2 |
@@ -54,7 +61,7 @@ The converter was fully simulated in LTspice before layout. This included verify
 **LTspice schematic**
 ![LTspice schematic](images/ltspice_schematic.png)
 
-**Switch node (PH) switching**
+**Switch node (PH) during startup**
 ![PH switching](images/ph_switching.png)
 
 **Output voltage, soft start to settled regulation**
@@ -62,7 +69,21 @@ The converter was fully simulated in LTspice before layout. This included verify
 
 The output completes a two stage soft start ramp and settles at 4.90V, within about 1 percent of the 4.96V calculated setpoint.
 
-The verification process surfaced and resolved several real issues in the model setup: two undefined Schottky diode models and a soft start timing problem diagnosed by probing the SS node directly. Connectivity was confirmed by tracing the generated netlist pin by pin against the model subcircuit definition. The full debugging log is in `NOTES.md`.
+The LTspice schematic uses a 1 pF soft-start capacitor, while the board uses C5 at 0.01 uF. The simulation value is scaled so the ramp completes inside the short transient window, so startup on the real board takes correspondingly longer.
+
+The verification process surfaced and resolved several real issues in the model setup: two undefined Schottky diode models and a soft start timing problem diagnosed by probing the SS node directly. Connectivity was confirmed by tracing the generated netlist pin by pin against the model subcircuit definition.
+
+## Bench Results
+
+The TPS54331 buck converter was bench-tested across a 0 to 2 A load range to evaluate its suitability for powering robotics electronics. Output voltage, ripple, and switching behavior were evaluated using an oscilloscope. The converter maintained an output voltage of 4.92 to 5.01 V, with 42 mV peak-to-peak ripple, 1.8% load regulation, and 86% peak efficiency. The maximum recorded component temperature was 68 C. The 3A rating comes from the IC and is not covered by these tests.
+
+| Measurement | Result |
+|-------------|--------|
+| Output voltage across 0 to 2A | 4.92V to 5.01V |
+| Output ripple | 42 mVpp |
+| Load regulation | 1.8% |
+| Peak efficiency | 86% |
+| Maximum temperature | 68 C |
 
 ## Connectors
 
@@ -101,7 +122,7 @@ The verification process surfaced and resolved several real issues in the model 
 | TP1 | VIN | Probe input voltage |
 | TP2 | GND | Ground reference, input side |
 | TP3 | PH | Probe switch node waveform |
-| TP4 | VSNS divider node | Probe feedback voltage |
+| TP4 | Feedback divider input (R4/R5 junction) | Loop injection point, probe output-side divider node |
 | TP5 | VOUT | Probe output voltage |
 | TP6 | GND | Ground reference, output side |
 
@@ -118,11 +139,11 @@ The verification process surfaced and resolved several real issues in the model 
 | C5 | 0.01 uF | Soft-start capacitor |
 | C6 | 1000 pF | Compensation capacitor |
 | C7 | 47 pF | Compensation capacitor |
-| C8, C9, C10 | 47 uF | Output capacitors |
-| R1 | 332 kOhm | Enable divider, top |
+| C8, C9 | 47 uF | Output capacitors |
+| R1 | 330 kOhm | Enable divider, top |
 | R2 | 68.1 kOhm | Enable divider, bottom |
 | R3 | 29.4 kOhm | Compensation resistor |
-| R4 | 0 Ohm | Output ground link |
+| R4 | 0 Ohm | Feedback divider series link, loop-break point |
 | R5 | 10.2 kOhm | Feedback divider, top |
 | R6 | 1.96 kOhm | Feedback divider, bottom |
 | R7 | Not populated | Reserved footprint, no connection |
@@ -142,7 +163,6 @@ The verification process surfaced and resolved several real issues in the model 
 | sim/TPS54331_5V_3A_Buck.asc | LTspice schematic |
 | sim/TPS54331_TRANS.asy | LTspice symbol for the TPS54331 |
 | sim/TPS54331_TRANS.LIB | TI transient model |
-| NOTES.md | Design derivation and debugging log |
 
 ## Running the Simulation
 
@@ -162,10 +182,9 @@ The schematic defines models for both Schottky diodes (`MB340A` for the external
 ## Status
 
 - Simulation verified, switching and regulation confirmed
-- Schematic complete
-- Layout complete
-- 3D render generated
+- Schematic and layout complete
 - DRC complete, 0 errors, 0 violations
+- Board fabricated and bench-tested from 0 to 2A (see Bench Results)
 
 ## What I Learned
 
@@ -179,4 +198,6 @@ The schematic defines models for both Schottky diodes (`MB340A` for the external
 ## Author
 
 Triaksha Singh
+Designed July 2026
+
 Designed July 2026
